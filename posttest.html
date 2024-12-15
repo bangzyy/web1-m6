@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tombol Ubah dan Reset</title>
+    <script src="JS/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+    <h1>Manipulasi Isi dengan Tombol Ubah dan Reset</h1>
+    <div id="fakultas">FKOM</div>
+    <br/>
+    <input type="text" id="universitas" value="UNIKU">
+    <br/><br/>
+    <!-- Tombol untuk Mengubah dan Mereset -->
+    <button id="ubah">Ubah</button>
+    <button id="reset">Reset</button>
+    <script>
+        $(document).ready(function(){
+            // Event Klik Tombol "Ubah"
+            $("#ubah").click(function(){
+                // Mengubah isi div dengan id=fakultas
+                $("#fakultas").text("Fakultas Ilmu Komputer");
+                // Mengubah isi input dengan id=universitas
+                $("#universitas").val("Universitas Kuningan");
+            });
+            // Event Klik Tombol "Reset"
+            $("#reset").click(function(){
+                // Mengembalikan isi div ke FKOM
+                $("#fakultas").text("FKOM");
+                // Mengembalikan isi input ke UNIKU
+                $("#universitas").val("UNIKU");
+            });
+        });
+    </script>
+</body>
+</html>

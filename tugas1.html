@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Pemesanan</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center; color: #333;">Form Pemesanan</h1>
+        <form id="formPemesanan">
+            <table>
+                <tr>
+                    <td><label for="id">ID Pemesanan:</label></td>
+                    <td><input type="number" id="id" name="id" min="1" required></td>
+                </tr>
+                <tr>
+                    <td><label for="nama">Nama Pemesan:</label></td>
+                    <td><input type="text" id="nama" name="nama" maxlength="35" required></td>
+                </tr>
+                <tr>
+                    <td><label for="idn">No Identitas:</label></td>
+                    <td><input type="text" id="idn" name="idn" maxlength="16" required></td>
+                </tr>
+                <tr>
+                    <td><label for="tipekamar">Tipe Kamar:</label></td>
+                    <td>
+                        <select id="tipekamar" name="tipekamar" required>
+                            <option value="-" selected>--PILIH--</option>
+                            <option value="Standard">Standard</option>
+                            <option value="Deluxe">Deluxe</option>
+                            <option value="Family">Family</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="price">Harga:</label></td>
+                    <td><input type="text" id="price" name="harga" readonly required></td>
+                </tr>
+                <tr>
+                    <td><label for="inap">Durasi Menginap:</label></td>
+                    <td><input type="number" id="inap" name="inap" min="1" required> Hari</td>
+                </tr>
+                <tr>
+                    <td><label for="ya">Termasuk Breakfast:</label></td>
+                    <td><input type="checkbox" id="ya" name="ya"></td>
+                </tr>
+                <tr>
+                    <td><label for="totalharga">Total Harga:</label></td>
+                    <td><input type="text" id="totalharga" name="totalharga" readonly></td>
+                </tr>
+            </table>
+            <div class="button-group">
+                <button type="button" class="save" id="calculate">SIMPAN</button>
+                <button type="reset" class="cancel">BATAL</button>
+            </div>
+        </form>
+        <div id="resume">
+            <h3>Resume Pemesanan</h3>
+            <p id="resumeContent"></p>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            const roomPrices = {
+                Standard: 300000,
+                Deluxe: 500000,
+                Family: 700000
+            };
+            // Update harga saat tipe kamar dipilih
+            $('#tipekamar').change(function () {
+                const roomType = $(this).val();
+                $('#price').val(roomPrices[roomType] || '');
+            });
+            // Hitung total harga dan tampilkan resume
+            $('#calculate').click(function () {
+                const id = $('#id').val(); 
+                const nama = $('#nama').val();
+                const idn = $('#idn').val();
+                const tipekamar = $('#tipekamar').val();
+                const harga = parseInt($('#price').val());
+                const inap = parseInt($('#inap').val());
+                const breakfast = $('#ya').is(':checked') ? 80000 : 0;
+                // Validasi
+                if(!id){alert("Id Harus Diisi")
+                    return;}
+                if (idn.length !== 16 || isNaN(idn)) {
+                    alert('Nomor Identitas harus berupa 16 digit angka!');
+                    return;
+                }
+                if (isNaN(harga)) {
+                    alert('Pilih tipe kamar yang valid!');
+                    return;
+                }
+                if (isNaN(inap) || inap <= 0) {
+                    alert('Durasi menginap harus angka valid!');
+                    return;
+                }
+                // Hitung total bayar
+                let total = harga * inap + breakfast;
+                let diskon = 0;
+                if (inap > 3) {
+                    diskon = total * 0.1;
+                    total -= diskon;
+                }
+                $('#totalharga').val(total.toLocaleString());
+                // Tampilkan resume
+                $('#resumeContent').html(`
+                <strong>Id pemrsanan:</strong> ${id}<br>
+                    <strong>Nama:</strong> ${nama}<br>
+                    <strong>No Identitas:</strong> ${idn}<br>
+                    <strong>Tipe Kamar:</strong> ${tipekamar}<br>
+                    <strong>Durasi Menginap:</strong> ${inap} hari<br>
+                    <strong>Diskon:</strong> Rp ${diskon.toLocaleString()}<br>
+                    <strong>Total Bayar:</strong> Rp ${total.toLocaleString()}<br>
+                `);
+                $('#resume').show();
+            });
+        });
+    </script>
+</body>
+</html>

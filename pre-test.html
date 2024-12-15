@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pre Test</title>
+    <script src="JS/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+    <button id="tampil">Tampilkan Gambar</button>
+    <button id="hide">Sembunyikan Gambar</button>
+    <img id="gambar" src="/modul1/ti.jpg" style="width: 250px; height: 350px;">
+    <script>
+        $(document).ready(function(){
+            $("#tampil").click(function(){
+                $("#gambar").fadeIn();
+            })
+            $("#hide").click(function(){
+                $("#gambar").fadeOut();
+            })
+        })
+    </script>
+</body>
+</html>
